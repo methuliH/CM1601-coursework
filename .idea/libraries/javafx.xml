@@ -1,0 +1,29 @@
+<component name="libraryTable">
+  <library name="javafx">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/Downloads/javafx/javafx-sdk-26.0.1/lib/javafx.base.jar!/" />
+      <root url="jar://$USER_HOME$/Downloads/javafx/javafx-sdk-26.0.1/lib/javafx.controls.jar!/" />
+      <root url="jar://$USER_HOME$/Downloads/javafx/javafx-sdk-26.0.1/lib/javafx.fxml.jar!/" />
+      <root url="jar://$USER_HOME$/Downloads/javafx/javafx-sdk-26.0.1/lib/javafx.graphics.jar!/" />
+      <root url="jar://$USER_HOME$/Downloads/javafx/javafx-sdk-26.0.1/lib/javafx.media.jar!/" />
+      <root url="jar://$USER_HOME$/Downloads/javafx/javafx-sdk-26.0.1/lib/javafx.swing.jar!/" />
+      <root url="jar://$USER_HOME$/Downloads/javafx/javafx-sdk-26.0.1/lib/javafx.web.jar!/" />
+      <root url="jar://$USER_HOME$/Downloads/javafx/javafx-sdk-26.0.1/lib/jdk.jsobject.jar!/" />
+      <root url="jar://$USER_HOME$/Downloads/javafx/javafx-sdk-26.0.1/lib/jfx.incubator.input.jar!/" />
+      <root url="jar://$USER_HOME$/Downloads/javafx/javafx-sdk-26.0.1/lib/jfx.incubator.richtext.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$USER_HOME$/Downloads/javafx/javafx-sdk-26.0.1/src/javafx.base" />
+      <root url="file://$USER_HOME$/Downloads/javafx/javafx-sdk-26.0.1/src/javafx.controls" />
+      <root url="file://$USER_HOME$/Downloads/javafx/javafx-sdk-26.0.1/src/javafx.fxml" />
+      <root url="file://$USER_HOME$/Downloads/javafx/javafx-sdk-26.0.1/src/javafx.graphics" />
+      <root url="file://$USER_HOME$/Downloads/javafx/javafx-sdk-26.0.1/src/javafx.media" />
+      <root url="file://$USER_HOME$/Downloads/javafx/javafx-sdk-26.0.1/src/javafx.swing" />
+      <root url="file://$USER_HOME$/Downloads/javafx/javafx-sdk-26.0.1/src/javafx.web" />
+      <root url="file://$USER_HOME$/Downloads/javafx/javafx-sdk-26.0.1/src/jdk.jsobject" />
+      <root url="file://$USER_HOME$/Downloads/javafx/javafx-sdk-26.0.1/src/jfx.incubator.input" />
+      <root url="file://$USER_HOME$/Downloads/javafx/javafx-sdk-26.0.1/src/jfx.incubator.richtext" />
+    </SOURCES>
+  </library>
+</component>

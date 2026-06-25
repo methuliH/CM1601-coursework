@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="openjfx-26.0">
+    <CLASSES>
+      <root url="file://$USER_HOME$/Downloads/openjfx-26.0.1_windows-x64_bin-sdk(1)" />
+      <root url="file://$USER_HOME$/Downloads/javafx" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
