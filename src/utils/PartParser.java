@@ -57,10 +57,19 @@ public class PartParser {
 
         category = category.toLowerCase();
         price = price.replaceAll("[^0-9.]", "");
+        if (price.isEmpty() || price.equals(".")) {
+            logInvalidRecord(line, "Invalid price format");
+            return null;
+        }
         quantity = quantity.replaceAll("[^0-9]", "");
 
         try {
-            return new Part(code, name, brand, price, quantity, category, purchaseDate, imgUrl);
+            double parsedPrice = Double.parseDouble(price);
+            int parsedQuantity = quantity.isEmpty() ? 0 : Integer.parseInt(quantity);
+            return new Part(code, name, brand, parsedPrice, parsedQuantity, category, purchaseDate, imgUrl);
+        } catch (NumberFormatException e) {
+            logInvalidRecord(line, "Invalid numeric field: " + e.getMessage());
+            return null;
         } catch (Exception e) {
             logInvalidRecord(line, "Failed to create Part: " + e.getMessage());
             return null;

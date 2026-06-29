@@ -13,9 +13,9 @@ import java.util.List;
 public class FileParser {
     //Existing file variables
     private static final String INVENTORY_LEGACY = "data/inventory_legacy.txt";
-    private static final String DEALERS_LEGACY= "data/dealer_legacy.txt";
-    private static final String INVENTORY_CLEAN = "data/inventoryData";
-    private static final String DEALERS_CLEAN = "data/dealerData";
+    private static final String DEALERS_LEGACY= "data/dealers_legacy.txt";
+    private static final String INVENTORY_CLEAN = "data/inventoryData.txt";
+    private static final String DEALERS_CLEAN = "data/dealerData.txt";
 
     //public method to be opened
     public static void initializeData(){

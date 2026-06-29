@@ -1,0 +1,2 @@
+2026-06-29 08:41:59 | Invalid numeric field: multiple points | P001, Bajaj 4-Stroke Piston, Bajaj, Rs. 4500.00, 15, Engine, 2023-10-12, piston4s.jpg
+2026-06-29 08:41:59 | Invalid numeric field: multiple points | P008,Piaggio Ape Filter,Piaggio,Rs.1100.00, 0 , Engine , 2024-02-28 , filter_ape.jpeg
