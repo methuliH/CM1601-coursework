@@ -26,7 +26,7 @@ public class InventoryManager {
     public int getTotalItemCount() {
         int totalQty = 0;
         for (int i = 0; i < this.parts.size(); ++i) {
-            totalQty = totalQty + this.parts.get(i).getQuantity();
+            totalQty = totalQty + this.parts.get(i).getQty();
         }
         return totalQty;
     }
@@ -183,5 +183,9 @@ public class InventoryManager {
         }
 
         return results;
+    }
+
+    public List<Part> getAllParts(){
+        return this.parts;
     }
 }
