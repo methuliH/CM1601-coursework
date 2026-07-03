@@ -16,12 +16,10 @@ public class CartManager {
 
     // Add item to cart
     public void addItem(String partCode, int quantity) {
-
         if (quantity <= 0) {
             System.out.println("Error: Quantity must be greater than 0.");
             return;
         }
-
 
         Part foundPart = null;
         for (int i = 0; i < this.inventory.getAllParts().size(); i++) {
@@ -32,36 +30,30 @@ public class CartManager {
             }
         }
 
-        // Check if part exists
         if (foundPart == null) {
             System.out.println("Invalid part code");
             return;
         }
 
-        // Check if enough stock
         if (foundPart.getQty() < quantity) {
             System.out.println("Not enough stock available");
             return;
         }
 
-        // Check if part already in cart
         for (int i = 0; i < this.items.size(); i++) {
             if (this.items.get(i).getPart().getCode().equals(partCode)) {
-                // Update quantity if already in cart
                 this.items.get(i).setQuantity(this.items.get(i).getQuantity() + quantity);
                 System.out.println("Updated cart item quantity.");
                 return;
             }
         }
 
-        // Add new item to cart
         this.items.add(new CartItem(quantity, foundPart));
         System.out.println("Added to cart successfully.");
     }
 
-    //remove items
-    public void removeItem(String partCode){
-        //check if item is in cart
+    // Remove item from cart
+    public void removeItem(String partCode) {
         for (int i = 0; i < this.items.size(); i++) {
             String itemCode = this.items.get(i).getPart().getCode();
             if (itemCode.equals(partCode)) {
@@ -73,15 +65,71 @@ public class CartManager {
         System.out.println("PartCode not found");
     }
 
-    //discounts
+    // Calculate subtotal without discounts
+    public double calculateSubTotal() {
+        double subTotal = 0.0;
+        for (int i = 0; i < this.items.size(); i++) {
+            int qty = this.items.get(i).getQuantity();
+            double price = this.items.get(i).getPart().getPrice();
+            subTotal += qty * price;
+        }
+        return subTotal;
+    }
 
+    // Calculate bulk discount (5% if qty >= 3)
+    public double calculateBulkDiscount() {
+        double discountPercent = 0.05;
+        int bulkDiscountAvailableQty = 3;
+        double bulkDiscount = 0.0;
 
+        for (int i = 0; i < this.items.size(); i++) {
+            if (this.items.get(i).getQuantity() >= bulkDiscountAvailableQty) {
+                int qty = this.items.get(i).getQuantity();
+                double price = this.items.get(i).getPart().getPrice();
+                double itemSubTotal = qty * price;
+                bulkDiscount += itemSubTotal * discountPercent;
+            }
+        }
+        return bulkDiscount;
+    }
 
+    // Check if cart has both Engine and Electrical parts
+    private boolean hasBothEngineAndElectrical() {
+        boolean hasEngine = false;
+        boolean hasElectrical = false;
 
+        for (int i = 0; i < this.items.size(); i++) {
+            String category = this.items.get(i).getPart().getCategory().toLowerCase();
+
+            if (category.equals("engine")) {
+                hasEngine = true;
+            }
+            if (category.equals("electrical")) {
+                hasElectrical = true;
+            }
+        }
+        return hasEngine && hasElectrical;
+    }
+
+    // Calculate synergy discount (10% if Engine + Electrical)
+    public double calculateSynergyDiscount(double subtotalAfterBulk) {
+        if (hasBothEngineAndElectrical()) {
+            return subtotalAfterBulk * 0.10;  // 10% discount
+        }
+        return 0.0;
+    }
+
+    // Calculate final total after all discounts
+    public double calculateTotal() {
+        double subtotal = calculateSubTotal();
+        double bulkDiscount = calculateBulkDiscount();
+        double synergyDiscount = calculateSynergyDiscount(subtotal - bulkDiscount);
+
+        return subtotal - bulkDiscount - synergyDiscount;
+    }
 
     // Get all items in cart
     public List<CartItem> getItems() {
         return this.items;
     }
-
 }
