@@ -1,2 +1,40 @@
 2026-06-29 08:41:59 | Invalid numeric field: multiple points | P001, Bajaj 4-Stroke Piston, Bajaj, Rs. 4500.00, 15, Engine, 2023-10-12, piston4s.jpg
 2026-06-29 08:41:59 | Invalid numeric field: multiple points | P008,Piaggio Ape Filter,Piaggio,Rs.1100.00, 0 , Engine , 2024-02-28 , filter_ape.jpeg
+2026-07-01 09:48:30 | Invalid numeric field: multiple points | P001, Bajaj 4-Stroke Piston, Bajaj, Rs. 4500.00, 15, Engine, 2023-10-12, piston4s.jpg
+2026-07-01 09:48:30 | Invalid numeric field: multiple points | P008,Piaggio Ape Filter,Piaggio,Rs.1100.00, 0 , Engine , 2024-02-28 , filter_ape.jpeg
+2026-07-02 09:57:04 | Invalid numeric field: multiple points | P001, Bajaj 4-Stroke Piston, Bajaj, Rs. 4500.00, 15, Engine, 2023-10-12, piston4s.jpg
+2026-07-02 09:57:04 | Invalid numeric field: multiple points | P008,Piaggio Ape Filter,Piaggio,Rs.1100.00, 0 , Engine , 2024-02-28 , filter_ape.jpeg
+2026-07-03 12:13:50 | Invalid numeric field: multiple points | P001, Bajaj 4-Stroke Piston, Bajaj, Rs. 4500.00, 15, Engine, 2023-10-12, piston4s.jpg
+2026-07-03 12:13:50 | Invalid numeric field: multiple points | P008,Piaggio Ape Filter,Piaggio,Rs.1100.00, 0 , Engine , 2024-02-28 , filter_ape.jpeg
+2026-07-03 12:15:05 | Invalid numeric field: multiple points | P001, Bajaj 4-Stroke Piston, Bajaj, Rs. 4500.00, 15, Engine, 2023-10-12, piston4s.jpg
+2026-07-03 12:15:05 | Invalid numeric field: multiple points | P008,Piaggio Ape Filter,Piaggio,Rs.1100.00, 0 , Engine , 2024-02-28 , filter_ape.jpeg
+2026-07-03 12:23:15 | Invalid numeric field: multiple points | P001, Bajaj 4-Stroke Piston, Bajaj, Rs. 4500.00, 15, Engine, 2023-10-12, piston4s.jpg
+2026-07-03 12:23:15 | Invalid numeric field: multiple points | P008,Piaggio Ape Filter,Piaggio,Rs.1100.00, 0 , Engine , 2024-02-28 , filter_ape.jpeg
+2026-07-03 12:24:20 | Invalid numeric field: multiple points | P001, Bajaj 4-Stroke Piston, Bajaj, Rs. 4500.00, 15, Engine, 2023-10-12, piston4s.jpg
+2026-07-03 12:24:20 | Invalid numeric field: multiple points | P008,Piaggio Ape Filter,Piaggio,Rs.1100.00, 0 , Engine , 2024-02-28 , filter_ape.jpeg
+2026-07-03 12:27:13 | Invalid numeric field: multiple points | P001, Bajaj 4-Stroke Piston, Bajaj, Rs. 4500.00, 15, Engine, 2023-10-12, piston4s.jpg
+2026-07-03 12:27:13 | Invalid numeric field: multiple points | P008,Piaggio Ape Filter,Piaggio,Rs.1100.00, 0 , Engine , 2024-02-28 , filter_ape.jpeg
+2026-07-03 12:27:38 | Invalid numeric field: multiple points | P001, Bajaj 4-Stroke Piston, Bajaj, Rs. 4500.00, 15, Engine, 2023-10-12, piston4s.jpg
+2026-07-03 12:27:38 | Invalid numeric field: multiple points | P008,Piaggio Ape Filter,Piaggio,Rs.1100.00, 0 , Engine , 2024-02-28 , filter_ape.jpeg
+2026-07-03 12:27:50 | Invalid numeric field: multiple points | P001, Bajaj 4-Stroke Piston, Bajaj, Rs. 4500.00, 15, Engine, 2023-10-12, piston4s.jpg
+2026-07-03 12:27:50 | Invalid numeric field: multiple points | P008,Piaggio Ape Filter,Piaggio,Rs.1100.00, 0 , Engine , 2024-02-28 , filter_ape.jpeg
+2026-07-03 12:28:55 | Invalid numeric field: multiple points | P001, Bajaj 4-Stroke Piston, Bajaj, Rs. 4500.00, 15, Engine, 2023-10-12, piston4s.jpg
+2026-07-03 12:28:55 | Invalid numeric field: multiple points | P008,Piaggio Ape Filter,Piaggio,Rs.1100.00, 0 , Engine , 2024-02-28 , filter_ape.jpeg
+2026-07-13 10:07:36 | Invalid numeric field: multiple points | P001, Bajaj 4-Stroke Piston, Bajaj, Rs. 4500.00, 15, Engine, 2023-10-12, piston4s.jpg
+2026-07-13 10:07:36 | Invalid numeric field: multiple points | P008,Piaggio Ape Filter,Piaggio,Rs.1100.00, 0 , Engine , 2024-02-28 , filter_ape.jpeg
+2026-07-13 10:20:24 | Invalid numeric field: multiple points | P001, Bajaj 4-Stroke Piston, Bajaj, Rs. 4500.00, 15, Engine, 2023-10-12, piston4s.jpg
+2026-07-13 10:20:24 | Invalid numeric field: multiple points | P008,Piaggio Ape Filter,Piaggio,Rs.1100.00, 0 , Engine , 2024-02-28 , filter_ape.jpeg
+2026-07-13 10:20:44 | Invalid numeric field: multiple points | P001, Bajaj 4-Stroke Piston, Bajaj, Rs. 4500.00, 15, Engine, 2023-10-12, piston4s.jpg
+2026-07-13 10:20:44 | Invalid numeric field: multiple points | P008,Piaggio Ape Filter,Piaggio,Rs.1100.00, 0 , Engine , 2024-02-28 , filter_ape.jpeg
+2026-07-13 10:24:28 | Invalid numeric field: multiple points | P001, Bajaj 4-Stroke Piston, Bajaj, Rs. 4500.00, 15, Engine, 2023-10-12, piston4s.jpg
+2026-07-13 10:24:28 | Invalid numeric field: multiple points | P008,Piaggio Ape Filter,Piaggio,Rs.1100.00, 0 , Engine , 2024-02-28 , filter_ape.jpeg
+2026-07-13 10:27:21 | Invalid numeric field: multiple points | P001, Bajaj 4-Stroke Piston, Bajaj, Rs. 4500.00, 15, Engine, 2023-10-12, piston4s.jpg
+2026-07-13 10:27:21 | Invalid numeric field: multiple points | P008,Piaggio Ape Filter,Piaggio,Rs.1100.00, 0 , Engine , 2024-02-28 , filter_ape.jpeg
+2026-07-13 10:29:47 | Invalid numeric field: multiple points | P001, Bajaj 4-Stroke Piston, Bajaj, Rs. 4500.00, 15, Engine, 2023-10-12, piston4s.jpg
+2026-07-13 10:29:47 | Invalid numeric field: multiple points | P008,Piaggio Ape Filter,Piaggio,Rs.1100.00, 0 , Engine , 2024-02-28 , filter_ape.jpeg
+2026-07-13 10:31:26 | Invalid numeric field: multiple points | P001, Bajaj 4-Stroke Piston, Bajaj, Rs. 4500.00, 15, Engine, 2023-10-12, piston4s.jpg
+2026-07-13 10:31:26 | Invalid numeric field: multiple points | P008,Piaggio Ape Filter,Piaggio,Rs.1100.00, 0 , Engine , 2024-02-28 , filter_ape.jpeg
+2026-07-13 10:33:34 | Invalid numeric field: multiple points | P001, Bajaj 4-Stroke Piston, Bajaj, Rs. 4500.00, 15, Engine, 2023-10-12, piston4s.jpg
+2026-07-13 10:33:34 | Invalid numeric field: multiple points | P008,Piaggio Ape Filter,Piaggio,Rs.1100.00, 0 , Engine , 2024-02-28 , filter_ape.jpeg
+2026-07-13 10:35:04 | Invalid numeric field: multiple points | P001, Bajaj 4-Stroke Piston, Bajaj, Rs. 4500.00, 15, Engine, 2023-10-12, piston4s.jpg
+2026-07-13 10:35:04 | Invalid numeric field: multiple points | P008,Piaggio Ape Filter,Piaggio,Rs.1100.00, 0 , Engine , 2024-02-28 , filter_ape.jpeg
