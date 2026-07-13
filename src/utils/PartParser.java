@@ -91,4 +91,22 @@ public class PartParser {
             System.err.println("Unable to log invalid record: " + e);
         }
     }
+
+    //Save added inventory to file
+    public static void saveInventoryToFIle(List<Part> parts){
+        try{
+            BufferedWriter writer = new BufferedWriter(new FIleWriter(INVENTORY_CLEAN));
+            for (int i = 0; i <parts.size(); i++){
+                Part p = parts.get(i);
+                String line = p.getCode() + "," + p.getName() + "," + p.getBrand() + ","
+                        + p.getPrice() + "," + p.getQty() + "," + p.getCategory() + ","
+                        + p.getDateAdded() + "," + p.getImgPath();
+                writer.write(line);
+                writer.newLine();
+            }
+            writer.close();
+        }catch (IOException e){
+            System.err.println("Error saving inventroy:"+ e.getMessage());
+        }
+    }
 }
