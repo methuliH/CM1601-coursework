@@ -132,4 +132,30 @@ public class CartManager {
     public List<CartItem> getItems() {
         return this.items;
     }
+
+
+    public boolean processCheckout() {
+        if (this.items.isEmpty()) {
+            System.out.println("Cart is empty");
+            return false;
+        }
+
+        for (int i = 0; i < this.items.size(); i++) {
+            CartItem item = this.items.get(i);
+            if (item.getQuantity() > item.getPart().getQty()) {
+                System.out.println("Not enough stock for " + item.getPart().getCode());
+                return false;
+            }
+        }
+
+        for (int i = 0; i < this.items.size(); i++) {
+            CartItem item = this.items.get(i);
+            Part part = item.getPart();
+            part.setQty(part.getQty() - item.getQuantity());
+        }
+
+        PartParser.saveInventoryToFile(this.inventory.getAllParts());
+        this.items.clear();
+        return true;
+    }
 }
