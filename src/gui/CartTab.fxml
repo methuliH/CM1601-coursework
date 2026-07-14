@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="gui.CartTabController"
+      spacing="16" styleClass="page">
+
+    <Label styleClass="page-title" text="POS Checkout" />
+
+    <TableView fx:id="cartTable" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="cartCodeColumn" prefWidth="100" text="Part Code" />
+            <TableColumn fx:id="cartNameColumn" prefWidth="150" text="Name" />
+            <TableColumn fx:id="cartQtyColumn" prefWidth="90" text="Quantity" />
+            <TableColumn fx:id="cartLineTotalColumn" prefWidth="100" text="Line Total" />
+        </columns>
+    </TableView>
+
+    <Button fx:id="removeFromCartBtn" onAction="#handleRemoveFromCart" styleClass="btn-danger" text="Remove Selected" />
+
+    <VBox spacing="6" styleClass="filter-bar">
+        <HBox spacing="8"><Label styleClass="section-label" text="Subtotal:" /><Label fx:id="subtotalLabel" text="—" /></HBox>
+        <HBox spacing="8"><Label styleClass="section-label" text="Bulk Discount:" /><Label fx:id="bulkDiscountLabel" text="—" /></HBox>
+        <HBox spacing="8"><Label styleClass="section-label" text="Synergy Discount:" /><Label fx:id="synergyDiscountLabel" text="—" /></HBox>
+        <HBox spacing="8"><Label styleClass="page-title" text="Total:" /><Label fx:id="grandTotalLabel" styleClass="page-title" text="—" /></HBox>
+    </VBox>
+
+    <Button fx:id="checkoutBtn" onAction="#handleCheckout" styleClass="btn-primary" text="Checkout" />
+
+</VBox>
