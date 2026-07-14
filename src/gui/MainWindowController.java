@@ -20,7 +20,7 @@ public class MainWindowController {
     @FXML private StackPane contentArea;
     @FXML private VBox inventoryTab, searchTab, cartTab, dealersTab;
     @FXML private Label totalItemsLabel, totalValueLabel, lowStockLabel;
-    @FXML private Button addPartBtn, exportBtn;
+    @FXML private Button addPartBtn;
     @FXML private TableView<Part> inventoryTable;
     @FXML private javafx.scene.control.TableColumn<Part, String> codeColumn;
     @FXML private javafx.scene.control.TableColumn<Part, String> nameColumn;
@@ -35,6 +35,9 @@ public class MainWindowController {
     @FXML private TableView<Part> auditTable;
     @FXML private TableColumn<Part, String> auditTimestampColumn, auditActionColumn, auditCodeColumn, auditQuantityColumn;
     @FXML private javafx.scene.control.ComboBox<String> searchCategoryCombo;
+    @FXML
+    private TextField searchKeywordField, minPriceField, maxPriceField;
+
 
     private InventoryManager inventory;
     private DealerManager dealerManager;
@@ -76,6 +79,7 @@ public class MainWindowController {
         inventoryTable.setItems(FXCollections.observableArrayList(allParts));
     }
 
+    // category dropdown
     private void populateCategoryDropdown() {
         List<Part> allParts = inventory.getAllParts();
         List<String> categories = new ArrayList<>();
@@ -106,6 +110,7 @@ public class MainWindowController {
         searchTab.setVisible(false);
         cartTab.setVisible(false);
         dealersTab.setVisible(false);
+        auditTab.setVisible(false);
         tab.setVisible(true);
     }
 
@@ -142,8 +147,45 @@ public class MainWindowController {
     }
 
     @FXML private void handleExport() {}
-    @FXML private void handleSearch() {}
-    @FXML private void handleClearSearch() {}
+
+    // SEARCH FUNCTION
+    @FXML private void handleSearch() {
+        String keyword = searchKeywordField.getText().trim();
+        String category = searchCategoryCombo.getValue();
+        if(category == null || category.equals("All Categories")){
+            category = "";
+        }
+        double minPrice = 0;
+        double maxPrice = Double.MAX_VALUE;
+
+        try {
+            if (!minPriceField.getText().trim().isEmpty()) {
+                minPrice = Double.parseDouble(minPriceField.getText().trim());
+            }
+            if (!maxPriceField.getText().trim().isEmpty()) {
+                maxPrice = Double.parseDouble(maxPriceField.getText().trim());
+            }
+        } catch (NumberFormatException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Invalid Price");
+            alert.setHeaderText(null);
+            alert.setContentText("Min Price and Max Price must be valid numbers.");
+            alert.showAndWait();
+            return;
+        }
+
+        List<Part> results = inventory.search(keyword, category, minPrice, maxPrice);
+        inventoryTable.setItems(FXCollections.observableArrayList(results));
+    }
+
+
+    @FXML private void handleClearSearch() {
+        searchKeywordField.clear();
+        minPriceField.clear();
+        maxPriceField.clear();
+        searchCategoryCombo.setValue("All Categories");
+        populateInventoryTab();
+    }
     @FXML private void handleUpdateSelected() {}
     @FXML private void handleDeleteSelected() {}
     @FXML private void handleSaveThreshold() {}
