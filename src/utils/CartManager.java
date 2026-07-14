@@ -152,6 +152,7 @@ public class CartManager {
             CartItem item = this.items.get(i);
             Part part = item.getPart();
             part.setQty(part.getQty() - item.getQuantity());
+            AuditLogger.log("CHECKOUT", part.getCode(), item.getQuantity());
         }
 
         PartParser.saveInventoryToFile(this.inventory.getAllParts());
