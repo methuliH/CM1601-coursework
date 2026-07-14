@@ -4,48 +4,37 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.collections.FXCollections;
 import models.Part;
 import models.Dealer;
 import utils.*;
-
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainWindowController {
 
-    @FXML
-    private Button inventoryBtn, searchBtn, cartBtn, dealersBtn;
-    @FXML
-    private StackPane contentArea;
-    @FXML
-    private VBox inventoryTab, searchTab, cartTab, dealersTab;
-
-    // Inventory tab components
-    @FXML
-    private Label totalItemsLabel, totalValueLabel, lowStockLabel;
-    @FXML
-    private Button addPartBtn, exportBtn;
-    @FXML
-    private TableView<Part> inventoryTable;
-
-
-    @FXML
-    private javafx.scene.control.TableColumn<Part, String> codeColumn;
-    @FXML
-    private javafx.scene.control.TableColumn<Part, String> nameColumn;
-    @FXML
-    private javafx.scene.control.TableColumn<Part, String> brandColumn;
-    @FXML
-    private javafx.scene.control.TableColumn<Part, String> categoryColumn;
-    @FXML
-    private javafx.scene.control.TableColumn<Part, Double> priceColumn;
-    @FXML
-    private javafx.scene.control.TableColumn<Part, Integer> quantityColumn;
-    @FXML
-    private javafx.scene.control.TableColumn<Part, String> dateAddedColumn;
-
+    @FXML private Button inventoryBtn, searchBtn, cartBtn, dealersBtn;
+    @FXML private StackPane contentArea;
+    @FXML private VBox inventoryTab, searchTab, cartTab, dealersTab;
+    @FXML private Label totalItemsLabel, totalValueLabel, lowStockLabel;
+    @FXML private Button addPartBtn, exportBtn;
+    @FXML private TableView<Part> inventoryTable;
+    @FXML private javafx.scene.control.TableColumn<Part, String> codeColumn;
+    @FXML private javafx.scene.control.TableColumn<Part, String> nameColumn;
+    @FXML private javafx.scene.control.TableColumn<Part, String> brandColumn;
+    @FXML private javafx.scene.control.TableColumn<Part, String> categoryColumn;
+    @FXML private javafx.scene.control.TableColumn<Part, Double> priceColumn;
+    @FXML private javafx.scene.control.TableColumn<Part, Integer> quantityColumn;
+    @FXML private javafx.scene.control.TableColumn<Part, String> dateAddedColumn;
+    @FXML private Button auditBtn, updateSelectedBtn, deleteSelectedBtn, saveThresholdBtn;
+    @FXML private VBox auditTab, lowStockListBox;
+    @FXML private TextField lowStockThresholdField;
+    @FXML private TableView<Part> auditTable;
+    @FXML private TableColumn<Part, String> auditTimestampColumn, auditActionColumn, auditCodeColumn, auditQuantityColumn;
+    @FXML private javafx.scene.control.ComboBox<String> searchCategoryCombo;
 
     private InventoryManager inventory;
     private DealerManager dealerManager;
@@ -56,16 +45,13 @@ public class MainWindowController {
         this.dealerManager = new DealerManager(dealers);
         this.cart = new CartManager(inventory);
 
-        // Set up tab switching
         inventoryBtn.setOnAction(e -> showTab(inventoryTab));
         searchBtn.setOnAction(e -> showTab(searchTab));
         cartBtn.setOnAction(e -> showTab(cartTab));
         dealersBtn.setOnAction(e -> showTab(dealersTab));
 
-        // Populate inventory tab
         populateInventoryTab();
-
-        // Show inventory tab by default
+        populateCategoryDropdown();
         showTab(inventoryTab);
     }
 
@@ -79,7 +65,6 @@ public class MainWindowController {
         totalValueLabel.setText("Total Value: Rs " + String.format("%.2f", totalValue));
         lowStockLabel.setText("Low Stock: " + lowStockItems.size());
 
-        //columns in the inventory table
         codeColumn.setCellValueFactory(new javafx.scene.control.cell.PropertyValueFactory<>("code"));
         nameColumn.setCellValueFactory(new javafx.scene.control.cell.PropertyValueFactory<>("name"));
         brandColumn.setCellValueFactory(new javafx.scene.control.cell.PropertyValueFactory<>("brand"));
@@ -91,47 +76,78 @@ public class MainWindowController {
         inventoryTable.setItems(FXCollections.observableArrayList(allParts));
     }
 
+    private void populateCategoryDropdown() {
+        List<Part> allParts = inventory.getAllParts();
+        List<String> categories = new ArrayList<>();
+
+        for (int i = 0; i < allParts.size(); i++) {
+            String category = allParts.get(i).getCategory();
+            boolean exists = false;
+            for (int j = 0; j < categories.size(); j++) {
+                if (categories.get(j).equals(category)) {
+                    exists = true;
+                    break;
+                }
+            }
+            if (!exists) {
+                categories.add(category);
+            }
+        }
+
+        searchCategoryCombo.getItems().add("All Categories");
+        for (int i = 0; i < categories.size(); i++) {
+            searchCategoryCombo.getItems().add(categories.get(i));
+        }
+        searchCategoryCombo.setValue("All Categories");
+    }
+
     private void showTab(VBox tab) {
         inventoryTab.setVisible(false);
         searchTab.setVisible(false);
         cartTab.setVisible(false);
         dealersTab.setVisible(false);
-
         tab.setVisible(true);
     }
 
     @FXML
     private void handleAddPart() {
-        // TODO: open add-part dialog
+        try {
+            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(getClass().getResource("/gui/AddPartDialog.fxml"));
+            javafx.scene.Parent root = loader.load();
+
+            AddPartDialogController dialogController = loader.getController();
+
+            javafx.stage.Stage dialogStage = new javafx.stage.Stage();
+            dialogStage.setTitle("Add New Part");
+            dialogStage.initModality(javafx.stage.Modality.APPLICATION_MODAL);
+            dialogStage.setScene(new javafx.scene.Scene(root));
+            dialogStage.showAndWait();
+
+            if (dialogController.isSaved()) {
+                boolean success = inventory.addPart(dialogController.getResultPart());
+                if (success) {
+                    populateInventoryTab();
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Duplicate Part Code");
+                    alert.setHeaderText(null);
+                    alert.setContentText("A part with code \"" + dialogController.getResultPart().getCode()
+                            + "\" already exists. Please use a different code.");
+                    alert.showAndWait();
+                }
+            }
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    @FXML
-    private void handleExport() {
-
-    }
-
-    @FXML
-    private void handleSearch() {
-
-    }
-
-    @FXML
-    private void handleClearSearch() {
-
-    }
-
-    @FXML
-    private void handleRemoveFromCart() {
-
-    }
-
-    @FXML
-    private void handleCheckout() {
-
-    }
-
-    @FXML
-    private void handleRefreshDealers() {
-
-    }
+    @FXML private void handleExport() {}
+    @FXML private void handleSearch() {}
+    @FXML private void handleClearSearch() {}
+    @FXML private void handleUpdateSelected() {}
+    @FXML private void handleDeleteSelected() {}
+    @FXML private void handleSaveThreshold() {}
+    @FXML private void handleRemoveFromCart() {}
+    @FXML private void handleCheckout() {}
+    @FXML private void handleRefreshDealers() {}
 }
