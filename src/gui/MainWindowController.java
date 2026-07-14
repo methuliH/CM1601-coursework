@@ -186,7 +186,39 @@ public class MainWindowController {
         searchCategoryCombo.setValue("All Categories");
         populateInventoryTab();
     }
-    @FXML private void handleUpdateSelected() {}
+    @FXML private void handleUpdateSelected() {
+        Part selected = inventoryTable.getSelectionModel().getSelectedItem();
+
+        if (selected == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("No Selection");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a part in the table first.");
+            alert.showAndWait();
+            return;
+        }
+
+        try {
+            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(getClass().getResource("/gui/AddPartDialog.fxml"));
+            javafx.scene.Parent root = loader.load();
+
+            AddPartDialogController dialogController = loader.getController();
+            dialogController.setPartToEdit(selected); // pre-fill the form
+
+            javafx.stage.Stage dialogStage = new javafx.stage.Stage();
+            dialogStage.setTitle("Update Part");
+            dialogStage.initModality(javafx.stage.Modality.APPLICATION_MODAL);
+            dialogStage.setScene(new javafx.scene.Scene(root));
+            dialogStage.showAndWait();
+
+            if (dialogController.isSaved()) {
+                inventory.updatePart(dialogController.getOriginalCode(), dialogController.getResultPart());
+                populateInventoryTab();
+            }
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+        }
+    }
     @FXML private void handleDeleteSelected() {}
     @FXML private void handleSaveThreshold() {}
     @FXML private void handleRemoveFromCart() {}
