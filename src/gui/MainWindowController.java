@@ -10,15 +10,17 @@ import javafx.scene.layout.VBox;
 import javafx.collections.FXCollections;
 import models.Part;
 import models.Dealer;
+import models.AuditLogEntry;
 import utils.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class MainWindowController {
 
-    @FXML private Button inventoryBtn, searchBtn, cartBtn, dealersBtn;
+    @FXML private Button inventoryBtn, cartBtn, dealersBtn;
     @FXML private StackPane contentArea;
-    @FXML private VBox inventoryTab, searchTab, cartTab, dealersTab;
+    @FXML private VBox inventoryTab, cartTab, dealersTab;
     @FXML private Label totalItemsLabel, totalValueLabel, lowStockLabel;
     @FXML private Button addPartBtn;
     @FXML private TableView<Part> inventoryTable;
@@ -32,16 +34,19 @@ public class MainWindowController {
     @FXML private Button auditBtn, updateSelectedBtn, deleteSelectedBtn, saveThresholdBtn;
     @FXML private VBox auditTab, lowStockListBox;
     @FXML private TextField lowStockThresholdField;
-    @FXML private TableView<Part> auditTable;
-    @FXML private TableColumn<Part, String> auditTimestampColumn, auditActionColumn, auditCodeColumn, auditQuantityColumn;
+    @FXML private TableView<AuditLogEntry> auditTable;
+    @FXML private TableColumn<AuditLogEntry, String> auditTimestampColumn, auditActionColumn, auditCodeColumn;
+    @FXML private TableColumn<AuditLogEntry, Integer> auditQuantityColumn;
     @FXML private javafx.scene.control.ComboBox<String> searchCategoryCombo;
-    @FXML
-    private TextField searchKeywordField, minPriceField, maxPriceField;
+    @FXML private TextField searchKeywordField, minPriceField, maxPriceField;
+    @FXML private DealersTabController dealersTabController;
+    @FXML private CartTabController cartTabController;
 
 
     private InventoryManager inventory;
     private DealerManager dealerManager;
     private CartManager cart;
+
 
     public void initialize(List<Part> parts, List<Dealer> dealers) {
         this.inventory = new InventoryManager(parts);
@@ -49,12 +54,16 @@ public class MainWindowController {
         this.cart = new CartManager(inventory);
 
         inventoryBtn.setOnAction(e -> showTab(inventoryTab));
-        searchBtn.setOnAction(e -> showTab(searchTab));
         cartBtn.setOnAction(e -> showTab(cartTab));
         dealersBtn.setOnAction(e -> showTab(dealersTab));
+        auditBtn.setOnAction(e -> showTab(auditTab));
+
+        dealersTabController.setDealerManager(dealerManager);
+        cartTabController.setCartManager(cart);
 
         populateInventoryTab();
         populateCategoryDropdown();
+        populateAuditTab();
         showTab(inventoryTab);
     }
 
@@ -77,6 +86,7 @@ public class MainWindowController {
         dateAddedColumn.setCellValueFactory(new javafx.scene.control.cell.PropertyValueFactory<>("dateAdded"));
 
         inventoryTable.setItems(FXCollections.observableArrayList(allParts));
+        populateLowStockPanel();
     }
 
     // category dropdown
@@ -107,7 +117,6 @@ public class MainWindowController {
 
     private void showTab(VBox tab) {
         inventoryTab.setVisible(false);
-        searchTab.setVisible(false);
         cartTab.setVisible(false);
         dealersTab.setVisible(false);
         auditTab.setVisible(false);
@@ -219,9 +228,125 @@ public class MainWindowController {
             e.printStackTrace();
         }
     }
-    @FXML private void handleDeleteSelected() {}
-    @FXML private void handleSaveThreshold() {}
-    @FXML private void handleRemoveFromCart() {}
-    @FXML private void handleCheckout() {}
-    @FXML private void handleRefreshDealers() {}
+    @FXML private void handleDeleteSelected() {Part selected = inventoryTable.getSelectionModel().getSelectedItem();
+
+        if (selected == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("No Selection");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a part in the table first.");
+            alert.showAndWait();
+            return;
+        }
+
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+        confirm.setTitle("Confirm Delete");
+        confirm.setHeaderText(null);
+        confirm.setContentText("Are you sure you want to delete part \"" + selected.getCode() + " - " + selected.getName() + "\"?");
+
+        Optional<ButtonType> result = confirm.showAndWait();
+
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            inventory.deletePart(selected.getCode());
+            populateInventoryTab();
+        }}
+
+
+
+
+    private void populateLowStockPanel() {
+        lowStockListBox.getChildren().clear();
+        List<Part> lowStockItems = inventory.getLowStockItems();
+
+        if (lowStockItems.isEmpty()) {
+            Label none = new Label("No low stock items");
+            lowStockListBox.getChildren().add(none);
+        } else {
+            for (int i = 0; i < lowStockItems.size(); i++) {
+                Part p = lowStockItems.get(i);
+                Label item = new Label(p.getCode() + " - " + p.getName() + " (qty: " + p.getQty() + ")");
+                item.getStyleClass().add("low-stock-item");
+                lowStockListBox.getChildren().add(item);
+            }
+        }
+    }
+    @FXML private void handleSaveThreshold() {try {
+        int newThreshold = Integer.parseInt(lowStockThresholdField.getText().trim());
+
+        if (newThreshold < 0) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Invalid Threshold");
+            alert.setHeaderText(null);
+            alert.setContentText("Threshold cannot be negative.");
+            alert.showAndWait();
+            return;
+        }
+
+        inventory.setLowStockThreshold(newThreshold);
+        lowStockThresholdField.setText(String.valueOf(inventory.getLowStockThreshold()));
+        populateInventoryTab();
+    } catch (NumberFormatException e) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Invalid Threshold");
+        alert.setHeaderText(null);
+        alert.setContentText("Threshold must be a whole number.");
+        alert.showAndWait();
+    }}
+    @FXML private void handleAddToCart() {
+        Part selected = inventoryTable.getSelectionModel().getSelectedItem();
+
+        if(selected == null){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("No Selection");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a part in the table first");
+            alert.showAndWait();
+            return;
+        }
+
+        TextInputDialog qtyDialog = new TextInputDialog("1");
+        qtyDialog.setTitle("Add to Cart");
+        qtyDialog.setHeaderText("Add \"" + selected.getName()+"\" to cart");
+        qtyDialog.setContentText("Quantity: ");
+
+        Optional<String> result = qtyDialog.showAndWait();
+
+        result.ifPresent(input -> {
+            try {
+                int quantity = Integer.parseInt(input.trim());
+                if (quantity <= 0) {
+                    showCartError("Quantity must be greater than 0.");
+                    return;
+                }
+                if (quantity > selected.getQty()) {
+                    showCartError("Only " + selected.getQty() + " in stock.");
+                    return;
+                }
+                cart.addItem(selected.getCode(), quantity);
+                cartTabController.refreshCart();
+            } catch (NumberFormatException e) {
+                showCartError("Quantity must be a whole number.");
+            }
+        });
+    }
+
+    private void populateAuditTab() {
+        auditTimestampColumn.setCellValueFactory(new javafx.scene.control.cell.PropertyValueFactory<>("timestamp"));
+        auditActionColumn.setCellValueFactory(new javafx.scene.control.cell.PropertyValueFactory<>("action"));
+        auditCodeColumn.setCellValueFactory(new javafx.scene.control.cell.PropertyValueFactory<>("partCode"));
+        auditQuantityColumn.setCellValueFactory(new javafx.scene.control.cell.PropertyValueFactory<>("quantity"));
+
+        List<AuditLogEntry> entries = AuditLogger.readAllEntries();
+        auditTable.setItems(FXCollections.observableArrayList(entries));
+    }
+
+    private void showCartError(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Invalid Quantity");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+
+    }
+
 }

@@ -93,9 +93,9 @@ public class PartParser {
     }
 
     //Save added inventory to file
-    public static void saveInventoryToFIle(List<Part> parts){
+    public static void saveInventoryToFile(List<Part> parts){
         try{
-            BufferedWriter writer = new BufferedWriter(new FIleWriter(INVENTORY_CLEAN));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(INVENTORY_CLEAN));
             for (int i = 0; i <parts.size(); i++){
                 Part p = parts.get(i);
                 String line = p.getCode() + "," + p.getName() + "," + p.getBrand() + ","
@@ -106,7 +106,7 @@ public class PartParser {
             }
             writer.close();
         }catch (IOException e){
-            System.err.println("Error saving inventroy:"+ e.getMessage());
+            System.err.println("Error saving inventory" + e.getMessage());
         }
     }
 }

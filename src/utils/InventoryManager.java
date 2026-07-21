@@ -6,7 +6,16 @@ import java.util.ArrayList;
 
 public class InventoryManager {
     private List<Part> parts;
-    private static final int DEFAULT_LOW_STOCK_THRESHOLD = 5; //This value do not change
+    private static final int DEFAULT_LOW_STOCK_THRESHOLD = 5;
+    private int lowStockThreshold = DEFAULT_LOW_STOCK_THRESHOLD;
+
+    public int getLowStockThreshold() {
+        return lowStockThreshold;
+    }
+
+    public void setLowStockThreshold(int threshold) {
+        this.lowStockThreshold = threshold;
+    }
 
     public InventoryManager(List<Part> parts){
         this.parts = parts;
@@ -48,7 +57,7 @@ public class InventoryManager {
         List<Part> lowStockParts = new ArrayList<>();
 
         for (int i = 0; i < this.parts.size(); ++i) {
-            if (this.parts.get(i).getQty() < DEFAULT_LOW_STOCK_THRESHOLD){
+            if (this.parts.get(i).getQty() < lowStockThreshold){
                 lowStockParts.add(this.parts.get(i));
             }
         }
@@ -129,19 +138,23 @@ public class InventoryManager {
 
 
     //Add new objects
-    public void addPart(Part part) {
+    public boolean addPart(Part part) {
         if (partCodeExists(part.getCode())){
             System.out.println("Code unavailable");
-            return;
+            return false;
         }
         this.parts.add(part);
+        PartParser.saveInventoryToFile(this.parts);
+        AuditLogger.log("ADD", part.getCode(), part.getQty());
         System.out.println("part "+ part.getCode() + " added successfully");
+        return true;
     }
 
     public void updatePart(String code, Part updated) {
         for(int i = 0; i < this.parts.size(); i++){
             if (this.parts.get(i).getCode().equals(code)) {
                 this.parts.set(i, updated);
+                PartParser.saveInventoryToFile(this.parts);
                 System.out.println("Part " + code + " updated successfully.");
                 return;
             }
@@ -153,7 +166,10 @@ public class InventoryManager {
     public void deletePart(String code) {
         for(int i = 0; i < this.parts.size(); i++){
             if (this.parts.get(i).getCode().equals(code)){
+                int qty = this.parts.get(i).getQty();
                 this.parts.remove(i);
+                PartParser.saveInventoryToFile(this.parts);
+                AuditLogger.log("DELETE", code, qty);
                 System.out.println("Part " + code + " deleted successfully.");
                 return;
             }

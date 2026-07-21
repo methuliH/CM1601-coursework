@@ -66,7 +66,7 @@ public class AddPartDialogController {
         return saved;
     }
 
-    //UPDATE PARTCODE
+    //SET TO EDIT
     public void setPartToEdit(Part part) {
         this.originalCode = part.getCode();
         codeField.setText(part.getCode());
@@ -81,7 +81,5 @@ public class AddPartDialogController {
     public String getOriginalCode() {
         return originalCode;
     }
-
-
 
 }

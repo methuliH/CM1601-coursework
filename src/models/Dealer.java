@@ -16,7 +16,7 @@ public class Dealer {
     public String getId(){return id;}
     public String getName(){return name;}
     public String getPhone(){return phone;}
-    public String location(){return location;}
+    public String getLocation(){return location;}
 
     public void setId(String id) {
         this.id = id;
@@ -34,7 +34,5 @@ public class Dealer {
         this.location = location;
     }
 
-    public String getLocation() {
-        return location;
-    }
+
 }
