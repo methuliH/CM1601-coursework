@@ -6,19 +6,21 @@ import java.util.ArrayList;
 
 public class InventoryManager {
     private List<Part> parts;
-    private static final int DEFAULT_LOW_STOCK_THRESHOLD = 5;
-    private int lowStockThreshold = DEFAULT_LOW_STOCK_THRESHOLD;
-
-    public int getLowStockThreshold() {
-        return lowStockThreshold;
-    }
-
-    public void setLowStockThreshold(int threshold) {
-        this.lowStockThreshold = threshold;
-    }
 
     public InventoryManager(List<Part> parts){
         this.parts = parts;
+        ThresholdStore.applyThresholds(this.parts);
+    }
+    
+    public void setLowStockThreshold(String code, int newThreshold) {
+        for (int i = 0; i < this.parts.size(); i++) {
+            if (this.parts.get(i).getCode().equals(code)) {
+                this.parts.get(i).setLowStockThreshold(newThreshold);
+                ThresholdStore.saveThresholds(this.parts);
+                return;
+            }
+        }
+        System.out.println("Error: Part code " + code + " not found.");
     }
 
     //Check if part code is available
@@ -57,7 +59,7 @@ public class InventoryManager {
         List<Part> lowStockParts = new ArrayList<>();
 
         for (int i = 0; i < this.parts.size(); ++i) {
-            if (this.parts.get(i).getQty() < lowStockThreshold){
+            if (this.parts.get(i).getQty() < this.parts.get(i).getLowStockThreshold()){
                 lowStockParts.add(this.parts.get(i));
             }
         }
@@ -155,6 +157,7 @@ public class InventoryManager {
             if (this.parts.get(i).getCode().equals(code)) {
                 this.parts.set(i, updated);
                 PartParser.saveInventoryToFile(this.parts);
+                AuditLogger.log("UPDATE", updated.getCode(), updated.getQty());
                 System.out.println("Part " + code + " updated successfully.");
                 return;
             }
