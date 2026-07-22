@@ -1,0 +1,135 @@
+/* app.css — palette: Beige Sand #E1DBC9, Slate Blue Grey #6B7B84,
+   Earth Brown #5E4B3B, Dark Pine #2D4530, Charcoal Grey #3C3C3C */
+
+.app-root {
+    -fx-background-color: #F6F3EC;
+    -fx-font-family: "Segoe UI", "Helvetica Neue", sans-serif;
+}
+
+/* ---------- Sidebar ---------- */
+.sidebar {
+    -fx-background-color: white;
+    -fx-border-color: transparent #E7E1D2 transparent transparent;
+    -fx-border-width: 0 1 0 0;
+}
+.sidebar-brand { -fx-border-color: transparent transparent #EDE8DC transparent; -fx-border-width: 0 0 1 0; }
+.brand-mark { -fx-background-color: #6B7B84; -fx-background-radius: 9; }
+.brand-mark-text { -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 15px; }
+.brand-name { -fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #3C3C3C; }
+.sidebar-footer { -fx-font-size: 11px; -fx-text-fill: #9A9284; }
+
+.nav-btn {
+    -fx-background-color: transparent;
+    -fx-text-fill: #6B6459;
+    -fx-font-size: 14px;
+    -fx-font-weight: 500;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 10 12 10 12;
+    -fx-background-radius: 9;
+    -fx-cursor: hand;
+}
+.nav-btn:hover { -fx-background-color: #F1EEE6; }
+.nav-btn-active {
+    -fx-background-color: derive(#6B7B84, 85%);
+    -fx-text-fill: #4A5860;
+    -fx-font-weight: bold;
+}
+
+/* ---------- Topbar / page header ---------- */
+.topbar { -fx-border-color: transparent transparent #EDE8DC transparent; -fx-border-width: 0 0 1 0; }
+.page-title { -fx-font-size: 19px; -fx-font-weight: bold; -fx-text-fill: #3C3C3C; }
+.page-subtitle { -fx-font-size: 13px; -fx-text-fill: #8A8375; }
+
+.primary-btn {
+    -fx-background-color: #6B7B84;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 13.5px;
+    -fx-background-radius: 9;
+    -fx-padding: 10 18 10 18;
+    -fx-cursor: hand;
+}
+.primary-btn:hover { -fx-background-color: derive(#6B7B84, -10%); }
+
+.avatar { -fx-background-color: derive(#6B7B84, 70%); -fx-background-radius: 50%; }
+.avatar-text { -fx-text-fill: #4A5860; -fx-font-weight: bold; -fx-font-size: 12px; }
+.user-name { -fx-font-size: 13px; -fx-font-weight: 600; -fx-text-fill: #5A5348; }
+
+/* ---------- Stat cards ---------- */
+.tab-body { -fx-background-color: white; }
+.stat-card {
+    -fx-background-color: #FAF8F3;
+    -fx-border-color: #EDE8DC;
+    -fx-border-radius: 12;
+    -fx-background-radius: 12;
+    -fx-padding: 18 20 18 20;
+    -fx-spacing: 4;
+}
+.stat-label { -fx-font-size: 12.5px; -fx-font-weight: 600; -fx-text-fill: #8A8375; }
+.stat-value { -fx-font-size: 28px; -fx-font-weight: 800; -fx-text-fill: #3C3C3C; }
+.stat-caption { -fx-font-size: 12px; -fx-text-fill: #9A9284; }
+
+.stat-card-warning { -fx-background-color: #F5EDE2; -fx-border-color: #DEC9AE; }
+.stat-label-warning { -fx-text-fill: #5E4B3B; }
+.stat-value-warning { -fx-text-fill: #5E4B3B; }
+.stat-caption-warning { -fx-text-fill: #7A6553; }
+
+/* ---------- Alert banner (low stock) ---------- */
+.alert-banner {
+    -fx-background-color: #F7F0E4;
+    -fx-border-color: #DEC9AE;
+    -fx-border-radius: 12;
+    -fx-background-radius: 12;
+}
+.alert-heading { -fx-font-size: 13.5px; -fx-font-weight: bold; -fx-text-fill: #5E4B3B; }
+.alert-item {
+    -fx-background-color: white;
+    -fx-border-color: #E4D5C1;
+    -fx-border-radius: 9;
+    -fx-background-radius: 9;
+    -fx-padding: 10 14 10 14;
+}
+.alert-item-name { -fx-font-size: 13.5px; -fx-font-weight: 600; -fx-text-fill: #3C3C3C; }
+.alert-item-meta { -fx-font-size: 12px; -fx-text-fill: #8A8375; }
+.badge-warning {
+    -fx-background-color: derive(#5E4B3B, 55%);
+    -fx-text-fill: #5E4B3B;
+    -fx-font-size: 12.5px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 99;
+    -fx-padding: 3 9 3 9;
+}
+
+/* ---------- Panels (recent activity / dealers) ---------- */
+.panel-card {
+    -fx-background-color: white;
+    -fx-border-color: #EDE8DC;
+    -fx-border-radius: 12;
+    -fx-background-radius: 12;
+}
+.panel-title { -fx-font-size: 14.5px; -fx-font-weight: bold; -fx-text-fill: #3C3C3C; }
+.panel-link { -fx-font-size: 12.5px; -fx-font-weight: 600; -fx-text-fill: #6B7B84; -fx-cursor: hand; }
+.panel-list-row {
+    -fx-border-color: transparent transparent #F0ECE2 transparent;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 9 0 9 0;
+}
+.panel-list-primary { -fx-font-size: 13px; -fx-text-fill: #3C3C3C; -fx-font-weight: 600; }
+.panel-list-secondary { -fx-font-size: 12px; -fx-text-fill: #9A9284; }
+
+/* Audit action tints — reuse across Audit Log screen */
+.tag-checkout { -fx-text-fill: #2D4530; -fx-font-weight: bold; }
+.tag-update   { -fx-text-fill: #5E4B3B; -fx-font-weight: bold; }
+.tag-add      { -fx-text-fill: #4A5860; -fx-font-weight: bold; }
+.tag-delete   { -fx-text-fill: #8A3B2E; -fx-font-weight: bold; }
+
+/* Destructive button (Delete Selected, Remove from cart) */
+.danger-btn-outline {
+    -fx-background-color: transparent;
+    -fx-border-color: #B0574A;
+    -fx-text-fill: #8A3B2E;
+    -fx-border-radius: 9;
+    -fx-font-weight: 600;
+    -fx-font-size: 13.5px;
+    -fx-padding: 10 16 10 16;
+}

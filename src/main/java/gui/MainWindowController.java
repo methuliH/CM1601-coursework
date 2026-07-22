@@ -50,7 +50,7 @@ public class MainWindowController {
         wireSidebar();
         refreshDashboard();
     }
-
+    // side bar activation (make panels visible)
     private void wireSidebar() {
         dashboardBtn.setOnAction(e -> showTab(dashboardTab, dashboardBtn));
         inventoryBtn.setOnAction(e -> showTab(inventoryTab, inventoryBtn));
@@ -58,7 +58,7 @@ public class MainWindowController {
         dealersBtn.setOnAction(e -> showTab(dealersTab, dealersBtn));
         auditBtn.setOnAction(e -> showTab(auditTab, auditBtn));
     }
-
+    // Tab switching logic
     private void showTab(VBox tab, Button activeBtn) {
         dashboardTab.setVisible(false);
         inventoryTab.setVisible(false);
@@ -72,7 +72,7 @@ public class MainWindowController {
         }
         activeBtn.getStyleClass().add("nav-btn-active");
     }
-
+    // updates dashboard's summary labels
     private void refreshDashboard() {
         totalItemsLabel.setText("Total Items: " + inventoryManager.getTotalItemCount());
         totalValueLabel.setText(String.format("Total Value: Rs %.2f", inventoryManager.getTotalInventoryValue()));

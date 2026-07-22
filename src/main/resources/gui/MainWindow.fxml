@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="gui.MainWindowController"
+            prefWidth="1440" prefHeight="900" styleClass="app-root"
+            stylesheets="@app.css">
+    <left>
+        <VBox prefWidth="220" styleClass="sidebar">
+            <padding><Insets top="20" right="0" bottom="20" left="0"/></padding>
+
+            <HBox alignment="CENTER_LEFT" spacing="10" styleClass="sidebar-brand">
+                <padding><Insets top="0" right="20" bottom="20" left="20"/></padding>
+                <StackPane styleClass="brand-mark" prefWidth="34" prefHeight="34">
+                    <Label text="M" styleClass="brand-mark-text"/>
+                </StackPane>
+                <Label text="Malabe Spares Depot" styleClass="brand-name" wrapText="true" maxWidth="150"/>
+            </HBox>
+
+            <VBox spacing="2">
+                <padding><Insets top="0" right="12" bottom="0" left="12"/></padding>
+
+                <Button fx:id="dashboardBtn" text="Dashboard" styleClass="nav-btn, nav-btn-active" maxWidth="Infinity"/>
+                <Button fx:id="inventoryBtn" text="Inventory" styleClass="nav-btn" maxWidth="Infinity"/>
+                <Button fx:id="cartBtn" text="Cart" styleClass="nav-btn" maxWidth="Infinity"/>
+                <Button fx:id="dealersBtn" text="Dealers" styleClass="nav-btn" maxWidth="Infinity"/>
+                <Button fx:id="auditBtn" text="Audit Log" styleClass="nav-btn" maxWidth="Infinity"/>
+            </VBox>
+
+            <Region VBox.vgrow="ALWAYS"/>
+
+            <Label text="v1.0 &#183; Local build" styleClass="sidebar-footer">
+                <VBox.margin><Insets top="12" right="20" bottom="12" left="20"/></VBox.margin>
+            </Label>
+        </VBox>
+    </left>
+
+    <!-- ============ CONTENT AREA ============ -->
+    <center>
+        <StackPane fx:id="contentArea">
+
+            <!-- ===== Dashboard tab (Screen 1) ===== -->
+            <VBox fx:id="dashboardTab" visible="true">
+
+                <!-- Topbar -->
+                <HBox alignment="CENTER_LEFT" styleClass="topbar">
+                    <padding><Insets top="22" right="32" bottom="22" left="32"/></padding>
+                    <VBox spacing="2">
+                        <Label text="Dashboard" styleClass="page-title"/>
+                        <Label text="Store overview at a glance" styleClass="page-subtitle"/>
+                    </VBox>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <HBox alignment="CENTER_LEFT" spacing="16">
+                        <Button fx:id="addPartBtn" text="+ Add Part" styleClass="primary-btn"/>
+                        <HBox alignment="CENTER_LEFT" spacing="8">
+                            <StackPane styleClass="avatar" prefWidth="30" prefHeight="30">
+                                <Label text="SM" styleClass="avatar-text"/>
+                            </StackPane>
+                            <Label text="Store Manager" styleClass="user-name"/>
+                        </HBox>
+                    </HBox>
+                </HBox>
+
+                <!-- Body -->
+                <VBox spacing="20" styleClass="tab-body">
+                    <padding><Insets top="24" right="32" bottom="24" left="32"/></padding>
+
+                    <!-- Stat cards -->
+                    <GridPane hgap="14" styleClass="stat-row">
+                        <columnConstraints>
+                            <ColumnConstraints percentWidth="33.33"/>
+                            <ColumnConstraints percentWidth="33.33"/>
+                            <ColumnConstraints percentWidth="33.33"/>
+                        </columnConstraints>
+
+                        <VBox styleClass="stat-card" GridPane.columnIndex="0">
+                            <Label text="Total Items" styleClass="stat-label"/>
+                            <Label fx:id="totalItemsLabel" text="Total Items: 180" styleClass="stat-value"/>
+                            <Label text="across 4 categories" styleClass="stat-caption"/>
+                        </VBox>
+
+                        <VBox styleClass="stat-card" GridPane.columnIndex="1">
+                            <Label text="Total Value" styleClass="stat-label"/>
+                            <Label fx:id="totalValueLabel" text="Total Value: Rs 340,102.50" styleClass="stat-value"/>
+                            <Label text="at current stock levels" styleClass="stat-caption"/>
+                        </VBox>
+
+                        <VBox styleClass="stat-card, stat-card-warning" GridPane.columnIndex="2">
+                            <Label text="Low Stock" styleClass="stat-label, stat-label-warning"/>
+                            <Label fx:id="lowStockLabel" text="Low Stock: 2" styleClass="stat-value, stat-value-warning"/>
+                            <Label text="below per-item threshold" styleClass="stat-caption, stat-caption-warning"/>
+                        </VBox>
+                    </GridPane>
+
+                    <!-- Low stock alert banner -->
+                    <VBox spacing="10" styleClass="alert-banner">
+                        <padding><Insets top="16" right="20" bottom="16" left="20"/></padding>
+                        <Label text="Low stock alert" styleClass="alert-heading"/>
+                        <HBox fx:id="lowStockListBox" spacing="24" styleClass="alert-items">
+                            <!-- MainWindowController.populateLowStockPanel() fills this with one
+                                 alert-item HBox (name/code + qty badge) per low-stock part -->
+                        </HBox>
+                    </VBox>
+
+                    <!-- Recent activity + dealers preview -->
+                    <HBox spacing="16">
+                        <VBox spacing="12" styleClass="panel-card" HBox.hgrow="ALWAYS">
+                            <padding><Insets top="18" right="20" bottom="18" left="20"/></padding>
+                            <HBox alignment="CENTER_LEFT">
+                                <Label text="Recent Audit Activity" styleClass="panel-title"/>
+                                <Region HBox.hgrow="ALWAYS"/>
+                                <Label text="View all &#8594;" styleClass="panel-link"/>
+                            </HBox>
+                            <VBox fx:id="recentActivityBox" spacing="2" styleClass="panel-list">
+                                <!-- populate with rows: action label (styled by type) + timestamp -->
+                            </VBox>
+                        </VBox>
+
+                        <VBox spacing="12" styleClass="panel-card" HBox.hgrow="ALWAYS">
+                            <padding><Insets top="18" right="20" bottom="18" left="20"/></padding>
+                            <HBox alignment="CENTER_LEFT">
+                                <Label text="Dealers" styleClass="panel-title"/>
+                                <Region HBox.hgrow="ALWAYS"/>
+                                <Label text="View all &#8594;" styleClass="panel-link"/>
+                            </HBox>
+                            <VBox fx:id="dealerPreviewBox" spacing="2" styleClass="panel-list">
+                                <!-- populate with rows: dealer name + location -->
+                            </VBox>
+                        </VBox>
+                    </HBox>
+                </VBox>
+            </VBox>
+
+            <!-- ===== Other tabs: build out the same way ===== -->
+            <VBox fx:id="inventoryTab" visible="false"/>
+            <VBox fx:id="cartTab" visible="false"/>
+            <VBox fx:id="dealersTab" visible="false"/>
+            <VBox fx:id="auditTab" visible="false"/>
+
+        </StackPane>
+    </center>
+</BorderPane>
