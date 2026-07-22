@@ -33,17 +33,41 @@ public class PartParser {
     // Parsing the lines into part objects
     private static Part parseLine(String line) {
         String[] fields = line.split(",");
+        int n = fields.length;
 
-        if (fields.length < 6) {
+
+        // code, name, price, quantity and category are critical fields.
+        if (n < 6) {
             logInvalidRecord(line, "Not enough fields");
             return null;
         }
 
         String code = fields[0].trim();
         String name = fields[1].trim();
+        String brand = (!fields[2].trim().isEmpty()) ? fields[2].trim() : "unknown";
         String price = fields[3].trim();
         String quantity = fields[4].trim();
         String category = fields[5].trim();
+
+        String purchaseDate;
+        String imgUrl;
+
+        if (n <= 8) {
+            purchaseDate = (n > 6 && !fields[6].trim().isEmpty()) ? fields[6].trim() : "unknown";
+            imgUrl = (n > 7 && !fields[7].trim().isEmpty()) ? fields[7].trim() : "no_image.png";
+
+        } else {
+            // loop to correctly make the date element in part object
+            StringBuilder dateBuilder = new StringBuilder();
+            for (int i = 6; i <= n - 2; i++) {
+                if (dateBuilder.length() > 0) {
+                    dateBuilder.append(",");
+                }
+                dateBuilder.append(fields[i].trim());
+            }
+            purchaseDate = dateBuilder.length() > 0 ? dateBuilder.toString() : "unknown";
+            imgUrl = (!fields[n - 1].trim().isEmpty()) ? fields[n - 1].trim() : "no_image.png";
+        }
 
         if (code.isEmpty() || name.isEmpty() || price.isEmpty() ||
                 quantity.isEmpty() || category.isEmpty()) {
@@ -51,17 +75,19 @@ public class PartParser {
             return null;
         }
 
-        String brand = (fields.length > 2 && !fields[2].trim().isEmpty()) ? fields[2] : "unknown";
-        String imgUrl = (fields.length > 7 && !fields[7].trim().isEmpty()) ? fields[7] : "no_image.png";
-        String purchaseDate = (fields.length > 6 && !fields[6].trim().isEmpty()) ? fields[6].trim() : "unknown";
+        return buildPart(code, name, brand, price, quantity, category, purchaseDate, imgUrl, line);
+    }
 
+    private static Part buildPart(String code, String name, String brand, String rawPrice, String rawQuantity,
+                                   String category, String purchaseDate, String imgUrl, String line) {
         category = category.toLowerCase();
+        String price = rawPrice.replaceAll("(?i)rs\\.?", "");
         price = price.replaceAll("[^0-9.]", "");
         if (price.isEmpty() || price.equals(".")) {
             logInvalidRecord(line, "Invalid price format");
             return null;
         }
-        quantity = quantity.replaceAll("[^0-9]", "");
+        String quantity = rawQuantity.replaceAll("[^0-9]", "");
 
         try {
             double parsedPrice = Double.parseDouble(price);
