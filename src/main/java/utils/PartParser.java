@@ -1,40 +1,23 @@
 package utils;
-import models.Part;
-import java.io.*;
-import java.util.List;
-import java.util.ArrayList;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
-//public class to show function
-public class PartParser {
+import models.Part;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.List;
+
+public class PartParser extends LegacyRecordParser<Part> {
     private static final String INVENTORY_CLEAN = "data/inventoryData.txt";
 
     public static List<Part> InventoryFileIntoObj() {
-        List<Part> partList = new ArrayList<>();
-
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(INVENTORY_CLEAN));
-            String line;
-
-            while ((line = reader.readLine()) != null) {
-                Part part = parseLine(line);
-                if (part != null) {
-                    partList.add(part);
-                }
-            }
-            reader.close();
-        } catch (IOException e) {
-            System.err.println("Error reading file: " + e.getMessage());
-        }
-        return partList;
+        return new PartParser().parseFile(INVENTORY_CLEAN);
     }
 
     // Parsing the lines into part objects
-    private static Part parseLine(String line) {
+    @Override
+    protected Part parseLine(String line) {
         String[] fields = line.split(",");
         int n = fields.length;
-
 
         // code, name, price, quantity and category are critical fields.
         if (n < 6) {
@@ -78,8 +61,8 @@ public class PartParser {
         return buildPart(code, name, brand, price, quantity, category, purchaseDate, imgUrl, line);
     }
 
-    private static Part buildPart(String code, String name, String brand, String rawPrice, String rawQuantity,
-                                   String category, String purchaseDate, String imgUrl, String line) {
+    private Part buildPart(String code, String name, String brand, String rawPrice, String rawQuantity,
+                            String category, String purchaseDate, String imgUrl, String line) {
         category = category.toLowerCase();
         String price = rawPrice.replaceAll("(?i)rs\\.?", "");
         price = price.replaceAll("[^0-9.]", "");
@@ -102,27 +85,11 @@ public class PartParser {
         }
     }
 
-    //Logging invalid records
-    private static void logInvalidRecord(String line, String reason) {
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter("data/invalidRecords.txt", true));
-            LocalDateTime now = LocalDateTime.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            String timestamp = now.format(formatter);
-            String logEntry = timestamp + " | " + reason + " | " + line;
-            writer.write(logEntry);
-            writer.newLine();
-            writer.close();
-        } catch (IOException e) {
-            System.err.println("Unable to log invalid record: " + e);
-        }
-    }
-
     //Save added inventory to file
-    public static void saveInventoryToFile(List<Part> parts){
-        try{
+    public static void saveInventoryToFile(List<Part> parts) {
+        try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(INVENTORY_CLEAN));
-            for (int i = 0; i <parts.size(); i++){
+            for (int i = 0; i < parts.size(); i++) {
                 Part p = parts.get(i);
                 String line = p.getCode() + "," + p.getName() + "," + p.getBrand() + ","
                         + p.getPrice() + "," + p.getQty() + "," + p.getCategory() + ","
@@ -131,7 +98,7 @@ public class PartParser {
                 writer.newLine();
             }
             writer.close();
-        }catch (IOException e){
+        } catch (IOException e) {
             System.err.println("Error saving inventory" + e.getMessage());
         }
     }
