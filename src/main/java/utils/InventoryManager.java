@@ -95,9 +95,9 @@ public class InventoryManager {
     }
 
 
-    //Sort using category
-    public List<Part> getAllPartsSortedByCategory() {
-        ArrayList<String> uniqueCategories = new ArrayList<>();
+    // Unique categories currently in the inventory, in first-seen order
+    public List<String> getAllCategories() {
+        List<String> uniqueCategories = new ArrayList<>();
 
         for (int i = 0; i < this.parts.size(); i++) {
             String category = this.parts.get(i).getCategory();
@@ -114,6 +114,13 @@ public class InventoryManager {
                 uniqueCategories.add(category);
             }
         }
+
+        return uniqueCategories;
+    }
+
+    //Sort using category
+    public List<Part> getAllPartsSortedByCategory() {
+        List<String> uniqueCategories = getAllCategories();
 
         ArrayList<Part> result = new ArrayList<>();
 

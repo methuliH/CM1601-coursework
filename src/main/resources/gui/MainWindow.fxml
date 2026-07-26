@@ -60,14 +60,11 @@
                         <Label text="Store overview at a glance" styleClass="page-subtitle"/>
                     </VBox>
                     <Region HBox.hgrow="ALWAYS"/>
-                    <HBox alignment="CENTER_LEFT" spacing="16">
-                        <Button fx:id="addPartBtn" text="+ Add Part" styleClass="primary-btn"/>
-                        <HBox alignment="CENTER_LEFT" spacing="8">
-                            <StackPane styleClass="avatar" prefWidth="30" prefHeight="30">
-                                <Label text="SM" styleClass="avatar-text"/>
-                            </StackPane>
-                            <Label text="Store Manager" styleClass="user-name"/>
-                        </HBox>
+                    <HBox alignment="CENTER_LEFT" spacing="8">
+                        <StackPane styleClass="avatar" prefWidth="30" prefHeight="30">
+                            <Label text="SM" styleClass="avatar-text"/>
+                        </StackPane>
+                        <Label text="Store Manager" styleClass="user-name"/>
                     </HBox>
                 </HBox>
 
@@ -142,8 +139,8 @@
             </VBox>
 
             <!-- ===== Other tabs: build out the same way ===== -->
-            <VBox fx:id="inventoryTab" visible="false"/>
-            <VBox fx:id="cartTab" visible="false"/>
+            <fx:include fx:id="inventoryTab" source="InventoryTab.fxml"/>
+            <fx:include fx:id="cartTab" source="CartTab.fxml"/>
             <VBox fx:id="dealersTab" visible="false"/>
             <VBox fx:id="auditTab" visible="false"/>
 

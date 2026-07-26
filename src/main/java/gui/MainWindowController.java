@@ -7,8 +7,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-import java.awt.event.ActionEvent;
-import java.beans.EventHandler;
 import java.util.List;
 import utils.AuditLogger;
 import utils.InventoryManager;
@@ -27,11 +25,10 @@ public class MainWindowController {
     @FXML private StackPane contentArea;
     @FXML private VBox dashboardTab;
     @FXML private VBox inventoryTab;
+    @FXML private InventoryTabController inventoryTabController;
     @FXML private VBox cartTab;
     @FXML private VBox dealersTab;
     @FXML private VBox auditTab;
-
-    @FXML private Button addPartBtn;
 
     @FXML private Label totalItemsLabel;
     @FXML private Label totalValueLabel;
@@ -49,6 +46,10 @@ public class MainWindowController {
         this.dealers = dealers;
         wireSidebar();
         refreshDashboard();
+
+        inventoryTabController.setInventoryManager(this.inventoryManager);
+        inventoryTabController.setupInventoryTable();
+        inventoryTabController.refreshInventoryTab();
     }
     // side bar activation (make panels visible)
     private void wireSidebar() {
