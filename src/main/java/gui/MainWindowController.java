@@ -27,8 +27,11 @@ public class MainWindowController {
     @FXML private VBox inventoryTab;
     @FXML private InventoryTabController inventoryTabController;
     @FXML private VBox cartTab;
+    @FXML private CartTabController cartTabController;
     @FXML private VBox dealersTab;
+    @FXML private DealersTabController dealersTabController;
     @FXML private VBox auditTab;
+    @FXML private AuditTabController auditTabController;
 
     @FXML private Label totalItemsLabel;
     @FXML private Label totalValueLabel;
@@ -50,17 +53,23 @@ public class MainWindowController {
         inventoryTabController.setInventoryManager(this.inventoryManager);
         inventoryTabController.setupInventoryTable();
         inventoryTabController.refreshInventoryTab();
+
+        cartTabController.setInventoryManager(this.inventoryManager);
+
+        dealersTabController.setDealers(this.dealers);
     }
     // side bar activation (make panels visible)
     private void wireSidebar() {
-        dashboardBtn.setOnAction(e -> showTab(dashboardTab, dashboardBtn));
-        inventoryBtn.setOnAction(e -> showTab(inventoryTab, inventoryBtn));
-        cartBtn.setOnAction(e -> showTab(cartTab, cartBtn));
-        dealersBtn.setOnAction(e -> showTab(dealersTab, dealersBtn));
-        auditBtn.setOnAction(e -> showTab(auditTab, auditBtn));
+        dashboardBtn.setOnAction(e -> showTab(dashboardTab, dashboardBtn, this::refreshDashboard));
+        inventoryBtn.setOnAction(e -> showTab(inventoryTab, inventoryBtn, inventoryTabController::refreshInventoryTab));
+        cartBtn.setOnAction(e -> showTab(cartTab, cartBtn, cartTabController::refreshCart));
+        dealersBtn.setOnAction(e -> showTab(dealersTab, dealersBtn, () -> {}));
+        auditBtn.setOnAction(e -> showTab(auditTab, auditBtn, auditTabController::refreshAuditLog));
     }
-    // Tab switching logic
-    private void showTab(VBox tab, Button activeBtn) {
+    // Tab switching logic - onShow refreshes whichever tab's data we're switching into,
+    // since the shared managers can be mutated by other tabs (e.g. Cart checkout
+    // deducting stock that Inventory's table needs to reflect).
+    private void showTab(VBox tab, Button activeBtn, Runnable onShow) {
         dashboardTab.setVisible(false);
         inventoryTab.setVisible(false);
         cartTab.setVisible(false);
@@ -72,6 +81,8 @@ public class MainWindowController {
             btn.getStyleClass().remove("nav-btn-active");
         }
         activeBtn.getStyleClass().add("nav-btn-active");
+
+        onShow.run();
     }
     // updates dashboard's summary labels
     private void refreshDashboard() {

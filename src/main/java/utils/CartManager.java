@@ -15,10 +15,10 @@ public class CartManager {
     }
 
     // Add item to cart
-    public void addItem(String partCode, int quantity) {
+    public boolean addItem(String partCode, int quantity) {
         if (quantity <= 0) {
             System.out.println("Error: Quantity must be greater than 0.");
-            return;
+            return false;
         }
 
         Part foundPart = null;
@@ -32,37 +32,39 @@ public class CartManager {
 
         if (foundPart == null) {
             System.out.println("Invalid part code");
-            return;
+            return false;
         }
 
         if (foundPart.getQty() < quantity) {
             System.out.println("Not enough stock available");
-            return;
+            return false;
         }
 
         for (int i = 0; i < this.items.size(); i++) {
             if (this.items.get(i).getPart().getCode().equals(partCode)) {
                 this.items.get(i).setQuantity(this.items.get(i).getQuantity() + quantity);
                 System.out.println("Updated cart item quantity.");
-                return;
+                return true;
             }
         }
 
         this.items.add(new CartItem(quantity, foundPart));
         System.out.println("Added to cart successfully.");
+        return true;
     }
 
     // Remove item from cart
-    public void removeItem(String partCode) {
+    public boolean removeItem(String partCode) {
         for (int i = 0; i < this.items.size(); i++) {
             String itemCode = this.items.get(i).getPart().getCode();
             if (itemCode.equals(partCode)) {
                 this.items.remove(i);
                 System.out.println("Item removed from cart.");
-                return;
+                return true;
             }
         }
         System.out.println("PartCode not found");
+        return false;
     }
 
     // Calculate subtotal without discounts

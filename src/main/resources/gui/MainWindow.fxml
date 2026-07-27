@@ -141,8 +141,8 @@
             <!-- ===== Other tabs: build out the same way ===== -->
             <fx:include fx:id="inventoryTab" source="InventoryTab.fxml"/>
             <fx:include fx:id="cartTab" source="CartTab.fxml"/>
-            <VBox fx:id="dealersTab" visible="false"/>
-            <VBox fx:id="auditTab" visible="false"/>
+            <fx:include fx:id="dealersTab" source="DealersTab.fxml"/>
+            <fx:include fx:id="auditTab" source="AuditTab.fxml"/>
 
         </StackPane>
     </center>

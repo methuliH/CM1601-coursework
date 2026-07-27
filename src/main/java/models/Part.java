@@ -24,9 +24,7 @@ public class Part {
     }
 
     //Getters
-    public String getCode(){
-        return code;
-    }
+    public String getCode(){return code;}
     public String getName(){
         return name;
     }
